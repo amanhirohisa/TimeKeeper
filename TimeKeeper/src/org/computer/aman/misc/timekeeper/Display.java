@@ -2,11 +2,14 @@ package org.computer.aman.misc.timekeeper;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  * タイムキーパーシステムの表示部
@@ -16,7 +19,9 @@ import javax.swing.JLabel;
  * @author Hirohisa AMAN (aman@ehime-u.ac.jp)
  * @version 1.2
  */
-public class Display extends JFrame implements Observer
+public class Display 
+extends JFrame 
+implements Observer, WindowListener
 {
 	private static final long serialVersionUID = -6131271582793986310L;
 
@@ -27,8 +32,9 @@ public class Display extends JFrame implements Observer
     {
         super("タイムキーパーシステム");
         
-        // 右上の×ボタンクリックで終了するよう設定
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // 右上の×ボタンクリックで終了 or リセットを選択するダイアログを開くよう設定
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        addWindowListener(this);
         
         // 背景色を白に設定
         getContentPane().setBackground(Color.white);
@@ -68,4 +74,54 @@ public class Display extends JFrame implements Observer
 
     /** 表示させる文字列(経過時間) */
     private JLabel timeText;
+
+	@Override
+	public void windowActivated(WindowEvent e) 
+	{
+	}
+
+
+	@Override
+	public void windowClosed(WindowEvent e) 
+	{
+	}
+
+
+	@Override
+	public void windowClosing(WindowEvent e) 
+	{
+		Object[] options = {"リセットして再スタート", "終了" };
+		int n = JOptionPane.showOptionDialog(this, "リセットして再スタートしますか？それとも終了しますか？", "リセット or 終了",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		if ( n == 0 ){
+			System.out.println("リセット");
+		}
+		else{
+			System.exit(0);
+		}
+	}
+
+
+	@Override
+	public void windowDeactivated(WindowEvent e) 
+	{
+	}
+
+
+	@Override
+	public void windowDeiconified(WindowEvent e) 
+	{
+	}
+
+
+	@Override
+	public void windowIconified(WindowEvent e) 
+	{
+	}
+
+
+	@Override
+	public void windowOpened(WindowEvent e) 
+	{
+	}
 }
