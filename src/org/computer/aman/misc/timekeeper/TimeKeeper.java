@@ -1,10 +1,12 @@
 package org.computer.aman.misc.timekeeper;
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.Timer;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  * タイムキーパーシステムの制御クラス <br>
@@ -30,6 +32,9 @@ extends WindowAdapter
         
         soundFileName = aSoundFile;
         
+		UIManager.put("OptionPane.messageFont", new Font("SansSerif", Font.BOLD, 48));
+		UIManager.put("Button.font", new Font("SansSerif", Font.BOLD, 48));
+        
         reset();
         start();
     }
@@ -42,14 +47,14 @@ extends WindowAdapter
 	public void windowClosing(WindowEvent e) 
 	{
 		display.setVisible(false);
-		Object[] options = {"リセット", "終了" };
+		Object[] options = {"リセット", "終了"};
 		int n = JOptionPane.showOptionDialog(display, "リセットしますか？それとも終了しますか？", "リセット or 終了",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if ( n == 0 ){
 			reset();
 			start();
 		}
-		else{
+		else {
 			System.exit(0);
 		}
 	}
@@ -58,7 +63,7 @@ extends WindowAdapter
 	 * タイマーをスタートさせる．
 	 */
 	private void start()
-	{		
+	{
 		JOptionPane.showMessageDialog(display, "OK をクリックするとスタートします");
 
         // 時計モデルを用意
