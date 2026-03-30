@@ -1,20 +1,22 @@
 package org.computer.aman.misc.timekeeper;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
  * タイムキーパーシステムの表示部
  * <br>
- * (C) 2004 Hirohisa AMAN (aman@ehime-u.ac.jp)
+ * (C) 2004-2026 Hirohisa AMAN (aman@ehime-u.ac.jp)
  * 
  * @author Hirohisa AMAN (aman@ehime-u.ac.jp)
- * @version 1.2
+ * @version 2.0
  */
 public class Display 
 extends JFrame 
@@ -24,12 +26,15 @@ implements Observer
 
 	/**
      * ウィンドウの各種設定
+     * 
+     * @param timeKeeper メインとなる TimeKeeper オブジェクト
      */
-    public Display()
+    public Display(TimeKeeper timeKeeper)
     {
         super("タイムキーパーシステム");
         
         // 右上の×ボタンクリックで終了 or リセットを選択するダイアログを開くよう設定
+        addWindowListener(timeKeeper);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
      
         // 背景色を白に設定
@@ -38,10 +43,18 @@ implements Observer
         // 全画面表示
         setSize( Toolkit.getDefaultToolkit().getScreenSize() );
         
-        // 初期画面(0：00)を設定
+        // レイアウトを設定
+        getContentPane().setLayout(new BorderLayout());
+        
+        // 中央に経過時間を表示； 初期画面(0：00)を設定
         timeText = new JLabel("00:00", JLabel.CENTER);
         timeText.setFont(new Font("Serif", Font.BOLD, getWidth()/3));
-        getContentPane().add(timeText);
+        getContentPane().add(timeText, BorderLayout.CENTER);
+        
+        // 画面下部に リセット or 終了 ボタンを配置
+        JButton stopButton = new JButton("リセット or 終了");
+        getContentPane().add(stopButton, BorderLayout.SOUTH);
+        stopButton.addActionListener(timeKeeper);
         
         setVisible(true);
     }

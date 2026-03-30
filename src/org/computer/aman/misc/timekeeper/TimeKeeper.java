@@ -1,5 +1,7 @@
 package org.computer.aman.misc.timekeeper;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
@@ -17,6 +19,7 @@ import javax.swing.UIManager;
  */
 public class TimeKeeper
 extends WindowAdapter
+implements ActionListener
 {
     /**
      * 1 秒ごとに表示時間を変更するタスクと
@@ -37,6 +40,12 @@ extends WindowAdapter
         
         reset();
         start();
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) 
+    {
+    	windowClosing(null);
     }
 
     /**
@@ -95,8 +104,7 @@ extends WindowAdapter
         if ( display != null ){
         	display.dispose();
         }
-        display = new Display();
-        display.addWindowListener(this);
+        display = new Display(this);
 	}
 	
 	
